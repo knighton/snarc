@@ -12,34 +12,43 @@ def parse_flags():
     return x.parse_args()
 
 
-def load_split(xx):
-    pairs = []
-    for x in xx:
-        i = x['input']
-        o = x['output']
-        i = np.array(i, np.uint8)
-        o = np.array(o, np.uint8)
-        pairs.append((i, o))
-    return pairs
+def load_split(aa):
+    xx = []
+    yy = []
+    for a in aa:
+        x = a['input']
+        y = a['output']
+        x = np.array(x, np.uint8)
+        y = np.array(y, np.uint8)
+        xx.append(x)
+        yy.append(y)
+    return xx, yy
 
 
 def load_task(f):
     x = json.load(open(f))
-    trains = load_split(x['train'])
-    tests = load_split(x['test'])
-    return trains, tests
+    t = load_split(x['train'])
+    v = load_split(x['test'])
+    return t, v
+
+
+def is_correct(a, b):
+    if a.shape != b.shape:
+        return False
+    return (a == b).all()
+
+
+def score_task(true, pred):
+    r = 0
+    for t, p in zip(true, pred):
+        r += is_correct(t, p)
+    return r, len(true)
 
 
 def run_task(solver, f):
-    trains, tests = load_task(f)
-    r = 0
-    for x, y in tests:
-        if x.shape != y.shape:
-            ok = False
-        else:
-            ok = (np.flip(x, 1) == y).all()
-        r += ok
-    return r, len(tests)
+    (tx, ty), (vx, vy_true) = load_task(f)
+    vy_pred = solver.do_task(tx, ty, vx)
+    return score_task(vy_true, vy_pred)
 
 
 def main(flags):
