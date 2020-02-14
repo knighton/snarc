@@ -1,6 +1,7 @@
 from .expert.fall import Fall
 from .expert.flip import Flip
 from .expert.rotate import Rotate
+from .expert.stack_vert_flip import StackVertFlip
 from .expert.zoom_on_frame import ZoomOnFrame
 from .expert.zoom_on_object import ZoomOnObject
 
@@ -11,6 +12,7 @@ class Solver(object):
             Fall(),
             Flip(),
             Rotate(),
+            StackVertFlip(),
             ZoomOnFrame(),
             ZoomOnObject(),
         ]
