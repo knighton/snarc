@@ -56,9 +56,14 @@ def main(flags):
     d = getattr(flags, 'in')
     ff = glob(d + '/*.json')
     ff.sort()
+    solved = 0
     for i, f in enumerate(ff):
         r, z = run_task(solver, f)
+        if r:
+            assert r == z
         print(i, f, r, '/', z)
+        solved += bool(r)
+    print('Solved:', solved)
 
 
 if __name__ == '__main__':

@@ -1,9 +1,10 @@
 from .expert.flip import Flip
+from .expert.rotate import Rotate
 
 
 class Solver(object):
     def __init__(self):
-        self.experts = [Flip()]
+        self.experts = [Flip(), Rotate()]
 
     def do_task(self, train_xx, train_yy, test_xx):
         for expert in self.experts:
