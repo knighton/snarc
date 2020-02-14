@@ -32,7 +32,14 @@ def load_task(f):
 
 def run_task(solver, f):
     trains, tests = load_task(f)
-    # TODO
+    r = 0
+    for x, y in tests:
+        if x.shape != y.shape:
+            ok = False
+        else:
+            ok = (np.flip(x, 1) == y).all()
+        r += ok
+    return r, len(tests)
 
 
 def main(flags):
@@ -41,7 +48,8 @@ def main(flags):
     ff = glob(d + '/*.json')
     ff.sort()
     for i, f in enumerate(ff):
-        run_task(solver, f)
+        r, z = run_task(solver, f)
+        print(i, f, r, '/', z)
 
 
 if __name__ == '__main__':
