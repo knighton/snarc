@@ -1,3 +1,4 @@
+from .expert.fall import Fall
 from .expert.flip import Flip
 from .expert.rotate import Rotate
 from .expert.zoom_on_frame import ZoomOnFrame
@@ -7,6 +8,7 @@ from .expert.zoom_on_object import ZoomOnObject
 class Solver(object):
     def __init__(self):
         self.experts = [
+            Fall(),
             Flip(),
             Rotate(),
             ZoomOnFrame(),
